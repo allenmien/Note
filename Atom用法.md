@@ -7,6 +7,6 @@
 1. spell-check插件关闭
 ### Pretty Json
 1. 安装 Pretty Json插件
-### Activate Power Mode
+### 炫酷效果
 1. 安装插件：Activate Power Mode
 2. Setting：combe模式关闭
