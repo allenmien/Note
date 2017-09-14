@@ -46,7 +46,7 @@ print b
 
 [(1, 'q'), (2, 'g'), (3, 'c')]
 ```
-##### 按list中某一元素的某一部分，岁元素排序
+##### 按list中某一元素的某一部分，对列表排序
 ```
 a = ['Chr1-10.txt', 'Chr1-1.txt', 'Chr1-2.txt', 'Chr1-14.txt', 'Chr1-3.txt', 'Chr1-20.txt', 'Chr1-5.txt']
 b = sorted(a, key=lambda d: int(d.split('-')[-1].split('.')[0]))
