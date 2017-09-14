@@ -42,6 +42,15 @@ print time.strftime("%a %b %d %H:%M:%S %Y", time.localtime())
 a = "Sat Mar 28 22:24:24 2016"
 print time.mktime(time.strptime(a,"%a %b %d %H:%M:%S %Y"))
 ```
+##### 把字符串转换为时新的字符串
+- strptime(str,format):方法分析表示根据格式的时间字符串。返回值是一个struct_time所返回gmtime()或localtime()。
+- strftime(format,date_truble):接收以时间元组，并返回以可读字符串表示的当地时间，格式由参数format决定
+```
+work_time = time.strftime("%Y-%m-%d", time.strptime("2013-05-23", "%Y-%m-%d"))
+print work_time
+
+"2013-05-23"
+```
 #### 格式化符号
 ```
 %y 两位数的年份表示（00-99）
