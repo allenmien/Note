@@ -34,6 +34,10 @@ print(datetime.utcfromtimestamp(t)) # UTC时间
 
 2015-04-19 04:20:00
 ```
+#### 获取现在时间的UTC标准时区的时间
+```
+datetime.datetime.utcnow()
+```
 #### datetime转换为str
 ```
 from datetime import datetime
