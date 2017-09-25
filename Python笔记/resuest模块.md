@@ -1,6 +1,6 @@
 # request模块
 1. GET 请求
-```
+```python
 import requests
 import json
 MAX_TIMES = 3
