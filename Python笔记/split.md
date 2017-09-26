@@ -1,5 +1,5 @@
 # split
-```
+```Python
 #python中不存在单个字符的运算，只有字符串函数  
 >>> s="www.google.com"  
 >>> s  
