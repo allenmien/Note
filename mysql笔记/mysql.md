@@ -1,5 +1,5 @@
 # mysql
-1. group by
+##### group by
 - 有count一定要有group
 
 ```
@@ -36,7 +36,7 @@ GROUP BY
 HAVING
 	cnt > 1
 ```
-2. desc 降序；
+##### desc 降序；
 ```
 SELECT
 	*
@@ -48,7 +48,7 @@ AND `p_source` = "8"
 ORDER BY
 	`p_dt1` DESC;
 ```
-3. 查重之后显示id
+##### 查重之后显示id
 ```
 SELECT
 	a.id,
