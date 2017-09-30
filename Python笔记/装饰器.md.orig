@@ -1,0 +1,18 @@
+# 装饰器
+##### 来源
+```python
+# coding:utf-8
+def my_sum(*canshu):
+    if len(canshu) == 0:
+        return ('啥都没')
+    for val in canshu:
+        if not isinstance(val, int):
+            return ('不是数字')
+        return sum(canshu)
+
+
+print  my_sum(1, 2, 3, 4)
+```
+```
+10
+```
