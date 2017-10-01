@@ -10,3 +10,11 @@
 ### Activate Power Mode
 1. 安装插件：Activate Power Mode
 2. Setting：combe模式关闭
+### github
+在命令行输入命令:
+```
+git config --global credential.helper store
+```
+```
+git push
+```
