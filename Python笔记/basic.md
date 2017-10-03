@@ -51,3 +51,13 @@ result:
 
 {'a': 1, 'c': 3, 'b': 2}
 ```
+##### 输入函数
+```Python
+name = raw_input('please enter your name: ')
+print 'hello,', name
+```
+```
+result:
+please enter your name: maqi
+hello, maqi
+```
