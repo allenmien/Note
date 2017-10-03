@@ -61,33 +61,3 @@ result:
 please enter your name: maqi
 hello, maqi
 ```
-##### 转义字符
-- \' = '
-- \" = "
-```
-words = 'I\'m \"OK\"!'
-print words
-```
-```
-I'm "OK"!
-```
-- \n表示换行
-- \t表示制表符
-- \\\ = \
-- python还允许用r''表示''内部的字符串默认不转义
-```python
-print '\\\t\\'
-print r'\\\t\\'
-```
-```
-\	\
-\\\t\\
-```
-##### 赋值
-```Python
-a = 123 # a是整数
-print a
-a = 'ABC' # a变为字符串
-print a
-```
-- 等号=是赋值语句，可以把任意数据类型赋值给变量，同一个变量可以反复赋值，而且可以是不同类型的变量
