@@ -7,3 +7,7 @@ defaults write com.apple.finder AppleShowAllFiles -bool true
 ```
 defaults write com.apple.finder AppleShowAllFiles -bool false
 ```
+##### SSH
+```
+ssh root@ip -p 4567
+```
