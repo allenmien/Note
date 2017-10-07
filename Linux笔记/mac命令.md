@@ -11,7 +11,7 @@ defaults write com.apple.finder AppleShowAllFiles -bool false
 ```
 ssh root@ip -p 4567
 ```
-##### smb
+##### smb局域网
 ```
 smb://
 cifs://
