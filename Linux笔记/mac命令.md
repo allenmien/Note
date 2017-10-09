@@ -16,12 +16,12 @@ ssh root@ip -p 4567
 smb://
 cifs://
 ```
-smb2-->smb1
+#### smb2-->smb1
 ```
 echo "[default]" >> ~/Library/Preferences/nsmb.conf; echo "smb_neg=smb1_only" >> ~/Library/Preferences/nsmb.conf
 
 ```
-smb1-->smb2
+#### smb1-->smb2
 ```
 rm ~/Library/Preferences/nsmb.conf
 ```
