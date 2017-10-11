@@ -1,6 +1,8 @@
 # sort排序
-- sorted 和list.sort 都接受key, reverse定制。但是区别是。list.sort()是列表中的方法，只能用于列表。而sorted可以用于任何可迭代的对象。list.sort()是在原序列上进行修改，不会产生新的序列。所以如果你不需要旧的序列，可以选择list.sort()。 sorted() 会返回一个新的序列。旧的对象依然存在。
-- 如果进行降序排列，只需要加上reverse=True
+- 默认升序。降序排列，只需要加上reverse=True
+- sorted 和list.sort 都接受key, reverse定制。
+- list.sort()是列表中的方法，只能用于列表。list.sort()是在原序列上进行修改，不会产生新的序列。
+- 而sorted可以用于任何可迭代的对象。sorted() 会返回一个新的序列。旧的对象依然存在。
 ##### 字符串排序
 sorted 字符串返回一个list
 ```
@@ -58,4 +60,21 @@ print b
 ```
 temp_ten_shs.sort(key=lambda x: x[u"dt"], reverse=True)
 temp_ten_shs_dic = temp_ten_shs[0]
+```
+#### sort() cmp
+- 实际上sort()方法在不传入参数func的时候 默认cmp为None。
+- 调用的是lambda x,y: cmp(x, y),而实际上就是调用cmp函数
+- compare(x,y)函数会在x<y时返回负数，在x>y时返回正数，如果x=y则返回0
+
+```Python
+numbers=[5,2,9,7]
+numbers.sort(lambda a,b:b-a)
+numbers
+[9,7,5,2]
+```
+```Python
+persons=[{'name':'zhang3','age':15},{'name':'li4','age':12}]
+persons.sort(lambda a,b:a['age']-b['age'])
+persons
+[{'age': 12, 'name': 'li4'}, {'age': 15, 'name': 'zhang3'}]
 ```

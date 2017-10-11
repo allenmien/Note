@@ -16,3 +16,6 @@ mongo_iGS_result1 = mongo_iGS_db.authenticate(name=CONFIG.mongo_iGS_user, passwo
 entity_db = mongo_iGS_db[u""]
 gs_basic_db = mongo_iGS_db[u""]
 ```
+##### 分批取
+```
+```
