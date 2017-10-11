@@ -113,3 +113,7 @@ mysql explain SELECT * FROM message ORDER BY id DESC LIMIT 10000, 20
 ```
 SELECT * FROM table WHERE id >=2500 ORDER BY auto_id asc LIMIT 0,20
 ```
+##### 占位符
+```
+%s
+```
