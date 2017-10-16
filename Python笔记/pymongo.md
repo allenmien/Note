@@ -18,4 +18,5 @@ gs_basic_db = mongo_iGS_db[u""]
 ```
 ##### 分批取
 ```
+mongo_cursor = court_notices_db.find(filter=query_condition, projection=columns, limit=limit_size)
 ```
