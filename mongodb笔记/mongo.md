@@ -4,6 +4,10 @@
 db.enterprises.find({}，{$or: [{resolveStatus: "待处理"}, {resolveStatus: "已完成"}], $and: [{zentao_task_id: {$ne: null}}, {zentao_task_id: {$ne: ""}}]})
 
 ```
+#### $or 查找
+```
+db..find({$or: [{eid: "000a1642-f772-4bd7-a7e3-772a3e71ebea"}, {eid: "1a458ea1-3b54-414c-a610-edfe00f4b2f4"}]})
+```
 #### find
 - licenses_alls字段存在
 ```
