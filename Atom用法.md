@@ -1,4 +1,5 @@
 # Atom用法
+### simplified-chinese-menu
 ### MarkDown用法
 1. 安装插件：markdown-preview-enhanced
     - break on single line 打开
