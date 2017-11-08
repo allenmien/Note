@@ -117,3 +117,11 @@ SELECT * FROM table WHERE id >=2500 ORDER BY auto_id asc LIMIT 0,20
 ```
 %s
 ```
+##### 删除
+```
+DELETE FROM properties WHERE id = %s
+```
+##### 写入
+```
+insert into `synchronize`(`mysql_id`,`type`,`created_time`) values('3_0c726e5d-680f-4d8c-a61a-2ceb0f9b9f8a_59cc041d0ec61a7c67e5ecf5','properties','2017-11-06 14:47:13');
+```
