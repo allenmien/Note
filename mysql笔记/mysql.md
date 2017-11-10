@@ -125,3 +125,7 @@ DELETE FROM properties WHERE id = %s
 ```
 insert into `synchronize`(`mysql_id`,`type`,`created_time`) values('3_0c726e5d-680f-4d8c-a61a-2ceb0f9b9f8a_59cc041d0ec61a7c67e5ecf5','properties','2017-11-06 14:47:13');
 ```
+##### group
+```
+select city_no from ods_entities where province = "BJ" group by city_no
+```
