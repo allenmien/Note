@@ -23,6 +23,14 @@ print(datetime.fromtimestamp(t))
 
 2015-04-19 12:20:00
 ```
+#### 把str转化为datetime
+```
+from datetime import datetime
+cday = datetime.strptime('2015-6-1 18:19:59', '%Y-%m-%d %H:%M:%S')
+print(cday)
+
+2015-06-01 18:19:59
+```
 #### timestamp转换到UTC标准时区的时间
 ```
 from datetime import datetime
