@@ -4,6 +4,7 @@
 - 正则表达式
 - sentry
 - marshmallow
+- gevent
 - gevent pool
 - eval()
 - exec()
