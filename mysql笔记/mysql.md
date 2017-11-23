@@ -129,3 +129,7 @@ insert into `synchronize`(`mysql_id`,`type`,`created_time`) values('3_0c726e5d-6
 ```
 select city_no from ods_entities where province = "BJ" group by city_no
 ```
+##### drop
+```
+DROP table shutadata_dev.temp_mark_abnormal_reason2
+```
