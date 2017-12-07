@@ -1,8 +1,8 @@
-# mysql
+# mysql实例
 ##### group by
 - 有count一定要有group
 
-```
+```mysql
 SELECT
 	STATUS,
 	count(STATUS) AS cnt
@@ -15,7 +15,7 @@ ORDER BY
 LIMIT 1000
 ```
 - Having
-```
+```mysql
 SELECT
 	p_ename,
 	p_type1,
@@ -37,7 +37,7 @@ HAVING
 	cnt > 1
 ```
 ##### desc 降序；
-```
+```mysql
 SELECT
 	*
 FROM
@@ -49,7 +49,7 @@ ORDER BY
 	`p_dt1` DESC;
 ```
 ##### 查重之后显示id
-```
+```mysql
 SELECT
 	a.id,
 	a.p_id,
@@ -100,16 +100,16 @@ select * from table limit 3,1; // 返回第4行
 select * from table limit 3; // 返回前3行,默认是0开始
 ```
 - 效率
-		- mysql中分页都是用的 limit 10000,20这样的方式.
-		- 这样的效率是很低的。
-		- 因为要先扫描1W多行才剔除前面的1W行，返回后面的结果。
+   - mysql中分页都是用的 limit 10000,20这样的方式.
+     - 这样的效率是很低的。
+     - 因为要先扫描1W多行才剔除前面的1W行，返回后面的结果。
 ```
 mysql explain SELECT * FROM message ORDER BY id DESC LIMIT 10000, 20
 ```
 - limit 10000,20的意思扫描满足条件的10020行，扔掉前面的10000行，返回最后的20行，每次查询需要扫描超过1W行，性能肯定大打折扣。
 - 优化效率
-		- 这句表示从id2500 开始，从0行开始以偏移量20 查询下去。
-		- 其实传统的limit m,n，相对的偏移一直是第一页，这样的话越翻到后面，效率越差，而上面给出的方法就没有这样的问题。
+   - 这句表示从id2500 开始，从0行开始以偏移量20 查询下去。
+     - 其实传统的limit m,n，相对的偏移一直是第一页，这样的话越翻到后面，效率越差，而上面给出的方法就没有这样的问题。
 ```
 SELECT * FROM table WHERE id >=2500 ORDER BY auto_id asc LIMIT 0,20
 ```
