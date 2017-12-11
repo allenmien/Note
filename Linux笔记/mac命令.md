@@ -25,3 +25,10 @@ echo "[default]" >> ~/Library/Preferences/nsmb.conf; echo "smb_neg=smb1_only" >>
 ```
 rm ~/Library/Preferences/nsmb.conf
 ```
+
+#### 显示路径
+
+```
+defaults write com.apple.finder _FXShowPosixPathInTitle -bool YES
+```
+

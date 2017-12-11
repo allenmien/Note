@@ -43,7 +43,16 @@ file = open("sample.txt")
 for line in file.xreadlines():
     pass # do something
 ```
+- with...open
+
+```python
+with open('./md5_test.csv', 'r') as file:
+    for line in file.readlines():
+        print(line.strip()) 
+```
+
 ##### 写文件
+
 ```Python
 file_obj = io.open(u"../logs/" + u"data_id" + u".txt", mode=u"a", encoding=u"utf-8")
         file_obj.write(dataid + u"\n")

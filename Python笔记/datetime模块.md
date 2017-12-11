@@ -54,3 +54,41 @@ print(now.strftime('%a, %b %d %H:%M'))
 
 Mon, May 05 16:28
 ```
+
+#### date转换实例
+
+```python
+__DATE_FORMATS = [
+    "%Y-%m-%d", "%Y-%m-%d %H:%M", "%Y-%m-%dT%H:%M:%S", "%Y-%m-%d %H:%M:%S",
+    "%Y%m%d", "%Y%m%d%H%M%S", "%Y年%m月%d日", "%Y年%m月%d日 %H:%M:%S",
+    "%Y年%m月%d日 %H:%M", "%Y/%m/%d", "%Y/%m/%d %H:%M:%S", "%Y.%m.%d",
+    "%Y.%m.%d %H:%M:%S", "%Y年%m月%d", "%Y年%m月%d %H:%M:%S", "%b %d %Y",
+    "%b %d %Y %H:%M:%S", "%b %d, %Y %H:%M:%S", "%b %d, %Y %H:%M:%S %p",
+    "%b %d, %Y", "%d-%b-%y"
+]
+
+
+def format_date(date_str, format):
+    """
+    format date
+    :param date_str: 
+    :param format: 
+    :return: 
+    """
+    if date_str is None or len(date_str) == 0:
+        return ""
+    date_str = date_str.replace("&nbsp;", "").strip()
+    if len(date_str) == 0:
+        return ""
+    result = date_str
+    for _dateformat in __DATE_FORMATS:
+        try:
+            temp_date = datetime.datetime.strptime(date_str, _dateformat)
+            result = temp_date.strftime(format)
+            break
+        except:
+            result = ""
+            continue
+    return result
+```
+
