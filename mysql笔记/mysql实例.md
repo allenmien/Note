@@ -72,6 +72,7 @@ ORDER BY
 	`p_dt1` DESC;
 ```
 ##### 查重之后显示id
+
 ```mysql
 SELECT
 	a.id,
