@@ -1,5 +1,5 @@
 # List
-## python
+## Python
 - [x] 类，静态类，self关键字
 
 - [ ] 正则表达式
@@ -25,11 +25,13 @@
 
 - [ ] update
 
-- [ ] max
+- [x] max
 
-- [ ] 继承：super,
+- [x] 继承：super,
 
-- [ ] getattr，hasattr，setattr
+- [x] getattr，hasattr，setattr
+
+- [x] Flask
 
 - [ ] python-fire
 
@@ -38,10 +40,21 @@
 - 内部类，匿名类
 - 泛型
 - 多线程
-## vim
+- 反射
+- 注解
+- maven
+- log4j
+- JVM
+- 负载均衡
+## Vim
 - 文本处理
 
 
 ## Linux
 
 - docker
+- curl
+
+## 算法
+
+- HASH、对称加密、公私钥
