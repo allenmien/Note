@@ -54,6 +54,7 @@
 
 - docker
 - curl
+- AJEX
 
 ## 算法
 
