@@ -151,6 +151,16 @@ SELECT * FROM table WHERE id >=2500 ORDER BY auto_id asc LIMIT 0,20
 ```mysql
 select city_no from ods_entities where province = "BJ" group by city_no
 ```
+##### like
+
+###### 通配符
+
+like是模糊查询， 'CO_%' 表示以CO_开头的，%是通配符，代表所有内容。
+
+```mysql
+select id,name,city from tablename where name like 'CO_%' 
+```
+
 ## 函数
 
 ### MD5

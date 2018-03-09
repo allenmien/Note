@@ -32,3 +32,12 @@ rm ~/Library/Preferences/nsmb.conf
 defaults write com.apple.finder _FXShowPosixPathInTitle -bool YES
 ```
 
+#### 增加环境变量
+
+```
+echo $PATH
+vi ~/.bash_profile
+export PATH=$PATH:/usr/local/sbin/mypath
+source $HOME/.bash_profile
+```
+

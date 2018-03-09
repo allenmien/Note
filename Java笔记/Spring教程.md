@@ -1,5 +1,3 @@
-
-
 # Spring框架
 
 ## 概述
@@ -332,4 +330,1201 @@ public class TextEditor {
 ```
 
 ### 基于构造函数的依赖注入
+
+xml:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+   <!-- Definition for textEditor bean -->
+   <bean id="textEditor" class="com.tutorialspoint.TextEditor">
+      <constructor-arg ref="spellChecker"/>
+   </bean>
+
+   <!-- Definition for spellChecker bean -->
+   <bean id="spellChecker" class="com.tutorialspoint.SpellChecker">
+   </bean>
+
+</beans>
+```
+
+这段xml的意思是，class id="textEditor"的构造函数中的参数为spellChecker，而spellChecker通过id="spellChecker"实例化
+
+MainApp.java
+
+```java
+package com.tutorialspoint;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+public class MainApp {
+   public static void main(String[] args) {
+      ApplicationContext context = 
+             new ClassPathXmlApplicationContext("Beans.xml");
+      TextEditor te = (TextEditor) context.getBean("textEditor");
+      te.spellCheck();
+   }
+}
+```
+
+TextEditor.java 
+
+```java
+package com.tutorialspoint;
+public class TextEditor {
+   private SpellChecker spellChecker;
+   public TextEditor(SpellChecker spellChecker) {
+      System.out.println("Inside TextEditor constructor." );
+      this.spellChecker = spellChecker;
+   }
+   public void spellCheck() {
+      spellChecker.checkSpelling();
+   }
+}
+```
+
+SpellChecker.java
+
+```java
+package com.tutorialspoint;
+public class SpellChecker {
+   public SpellChecker(){
+      System.out.println("Inside SpellChecker constructor." );
+   }
+   public void checkSpelling() {
+      System.out.println("Inside checkSpelling." );
+   } 
+}
+```
+
+result:
+
+```
+Inside SpellChecker constructor.
+Inside TextEditor constructor.
+Inside checkSpelling.
+```
+
+#### 构造函数参数
+
+##### 多个参数
+
+```xml
+<beans>
+   <bean id="foo" class="x.y.Foo">
+      <constructor-arg ref="bar"/>
+      <constructor-arg ref="baz"/>
+   </bean>
+
+   <bean id="bar" class="x.y.Bar"/>
+   <bean id="baz" class="x.y.Baz"/>
+</beans>
+```
+
+```java
+package x.y;
+public class Foo {
+   public Foo(Bar bar, Baz baz) {
+      // ...
+   }
+}
+```
+
+##### index 属性作为索引
+
+```xml
+<beans>
+
+   <bean id="exampleBean" class="examples.ExampleBean">
+      <constructor-arg index="0" value="2001"/>
+      <constructor-arg index="1" value="Zara"/>
+   </bean>
+
+</beans>
+```
+
+##### type属性指定参数的类型
+
+```xml
+<beans>
+
+   <bean id="exampleBean" class="examples.ExampleBean">
+      <constructor-arg type="int" value="2001"/>
+      <constructor-arg type="java.lang.String" value="Zara"/>
+   </bean>
+
+</beans>
+```
+
+##### ref代表引用
+
+```xml
+<bean id="textEditor" class="com.tutorialspoint.TextEditor">
+      <constructor-arg ref="spellChecker"/>
+   </bean>
+```
+
+### 基于设值函数的依赖注入
+
+## 注入内部 Beans
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+   <!-- Definition for textEditor bean using inner bean -->
+   <bean id="textEditor" class="com.tutorialspoint.TextEditor">
+      <property name="spellChecker">
+         <bean id="spellChecker" class="com.tutorialspoint.SpellChecker"/>
+       </property>
+   </bean>
+
+</beans>
+```
+
+## 注入集合
+
+xml:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+   <!-- Definition for javaCollection -->
+   <bean id="javaCollection" class="com.tutorialspoint.JavaCollection">
+
+      <!-- results in a setAddressList(java.util.List) call -->
+      <property name="addressList">
+         <list>
+            <value>INDIA</value>
+            <value>Pakistan</value>
+            <value>USA</value>
+            <value>USA</value>
+         </list>
+      </property>
+
+      <!-- results in a setAddressSet(java.util.Set) call -->
+      <property name="addressSet">
+         <set>
+            <value>INDIA</value>
+            <value>Pakistan</value>
+            <value>USA</value>
+            <value>USA</value>
+        </set>
+      </property>
+
+      <!-- results in a setAddressMap(java.util.Map) call -->
+      <property name="addressMap">
+         <map>
+            <entry key="1" value="INDIA"/>
+            <entry key="2" value="Pakistan"/>
+            <entry key="3" value="USA"/>
+            <entry key="4" value="USA"/>
+         </map>
+      </property>
+
+      <!-- results in a setAddressProp(java.util.Properties) call -->
+      <property name="addressProp">
+         <props>
+            <prop key="one">INDIA</prop>
+            <prop key="two">Pakistan</prop>
+            <prop key="three">USA</prop>
+            <prop key="four">USA</prop>
+         </props>
+      </property>
+
+   </bean>
+
+</beans>
+```
+
+main:
+
+```java
+package com.tutorialspoint;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+public class MainApp {
+   public static void main(String[] args) {
+      ApplicationContext context = 
+             new ClassPathXmlApplicationContext("Beans.xml");
+      JavaCollection jc=(JavaCollection)context.getBean("javaCollection");
+      jc.getAddressList();
+      jc.getAddressSet();
+      jc.getAddressMap();
+      jc.getAddressProp();
+   }
+}
+```
+
+JavaCollection:
+
+```java
+package com.tutorialspoint;
+import java.util.*;
+public class JavaCollection {
+   List addressList;
+   Set  addressSet;
+   Map  addressMap;
+   Properties addressProp;
+
+   public void setAddressList(List addressList) {
+      this.addressList = addressList;
+   }
+
+   public List getAddressList() {
+      System.out.println("List Elements :"  + addressList);
+      return addressList;
+   }
+
+   public void setAddressSet(Set addressSet) {
+      this.addressSet = addressSet;
+   }
+
+   public Set getAddressSet() {
+      System.out.println("Set Elements :"  + addressSet);
+      return addressSet;
+   }
+
+   public void setAddressMap(Map addressMap) {
+      this.addressMap = addressMap;
+   }  
+
+   public Map getAddressMap() {
+      System.out.println("Map Elements :"  + addressMap);
+      return addressMap;
+   }
+
+   public void setAddressProp(Properties addressProp) {
+      this.addressProp = addressProp;
+   } 
+
+   public Properties getAddressProp() {
+      System.out.println("Property Elements :"  + addressProp);
+      return addressProp;
+   }
+}
+```
+
+### 将引用和值混合在一起
+
+xml:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+   <!-- Bean Definition to handle references and values -->
+   <bean id="..." class="...">
+
+      <!-- Passing bean reference  for java.util.List -->
+      <property name="addressList">
+         <list>
+            <ref bean="address1"/>
+            <ref bean="address2"/>
+            <value>Pakistan</value>
+         </list>
+      </property>
+
+      <!-- Passing bean reference  for java.util.Set -->
+      <property name="addressSet">
+         <set>
+            <ref bean="address1"/>
+            <ref bean="address2"/>
+            <value>Pakistan</value>
+         </set>
+      </property>
+
+      <!-- Passing bean reference  for java.util.Map -->
+      <property name="addressMap">
+         <map>
+            <entry key="one" value="INDIA"/>
+            <entry key ="two" value-ref="address1"/>
+            <entry key ="three" value-ref="address2"/>
+         </map>
+      </property>
+
+   </bean>
+
+</beans>
+```
+
+### 空和null
+
+```xml
+<bean id="..." class="exampleBean">
+   <property name="email" value=""/>
+</bean>
+
+<bean id="..." class="exampleBean">
+   <property name="email"><null/></property>
+</bean>
+```
+
+## Beans 自动装配
+
+### 自动装配 ‘byName’
+
+在 XML 配置文件中 beans 的 *auto-wire* 属性设置为 *byName*。
+
+然后，它尝试将它的属性与配置文件中定义为相同名称的 beans 进行匹配和连接。
+
+如果找到匹配项，它将注入这些 beans，否则，它将抛出异常。
+
+
+
+示例：
+
+getBean时，byName，会查找符合( SpellChecker spellChecker ) name的id，找到赋值注入
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+   <!-- Definition for textEditor bean -->
+   <bean id="textEditor" class="com.tutorialspoint.TextEditor" 
+      autowire="byName">
+      <property name="name" value="Generic Text Editor" />
+   </bean>
+
+   <!-- Definition for spellChecker bean -->
+   <bean id="spellChecker" class="com.tutorialspoint.SpellChecker">
+   </bean>
+
+</beans>
+```
+
+```java
+package com.tutorialspoint;
+public class TextEditor {
+   private SpellChecker spellChecker;
+   private String name;
+   public void setSpellChecker( SpellChecker spellChecker ){
+      this.spellChecker = spellChecker;
+   }
+   public SpellChecker getSpellChecker() {
+      return spellChecker;
+   }
+   public void setName(String name) {
+      this.name = name;
+   }
+   public String getName() {
+      return name;
+   }
+   public void spellCheck() {
+      spellChecker.checkSpelling();
+   }
+}
+```
+
+```java
+package com.tutorialspoint;
+public class SpellChecker {
+   public SpellChecker() {
+      System.out.println("Inside SpellChecker constructor." );
+   }
+   public void checkSpelling() {
+      System.out.println("Inside checkSpelling." );
+   }   
+}
+```
+
+```
+package com.tutorialspoint;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+public class MainApp {
+   public static void main(String[] args) {
+      ApplicationContext context = 
+             new ClassPathXmlApplicationContext("Beans.xml");
+      TextEditor te = (TextEditor) context.getBean("textEditor");
+      te.spellCheck();
+   }
+}
+```
+
+### 自动装配 ‘byType’
+
+byType时，会查找( SpellChecker spellChecker )中，这个SpellChecker  Type的id
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+   <!-- Definition for textEditor bean -->
+   <bean id="textEditor" class="com.tutorialspoint.TextEditor" 
+      autowire="byType">
+      <property name="name" value="Generic Text Editor" />
+   </bean>
+
+   <!-- Definition for spellChecker bean -->
+   <bean id="SpellChecker" class="com.tutorialspoint.SpellChecker">
+   </bean>
+
+</beans>
+```
+
+### 由构造函数自动装配
+
+TextEditor.java 
+
+```java
+package com.tutorialspoint;
+public class TextEditor {
+   private SpellChecker spellChecker;
+   private String name;
+   public TextEditor( SpellChecker spellChecker, String name ) {
+      this.spellChecker = spellChecker;
+      this.name = name;
+   }
+   public SpellChecker getSpellChecker() {
+      return spellChecker;
+   }
+   public String getName() {
+      return name;
+   }
+   public void spellCheck() {
+      spellChecker.checkSpelling();
+   }
+}
+```
+
+原来的xml:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+   <!-- Definition for textEditor bean -->
+   <bean id="textEditor" class="com.tutorialspoint.TextEditor">
+      <constructor-arg  ref="spellChecker" />
+      <constructor-arg  value="Generic Text Editor"/>
+   </bean>
+
+   <!-- Definition for spellChecker bean -->
+   <bean id="spellChecker" class="com.tutorialspoint.SpellChecker">
+   </bean>
+
+</beans>
+```
+
+构造函数自动装配
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+   <!-- Definition for textEditor bean -->
+   <bean id="textEditor" class="com.tutorialspoint.TextEditor" 
+      autowire="constructor">
+      <constructor-arg value="Generic Text Editor"/>
+   </bean>
+
+   <!-- Definition for spellChecker bean -->
+   <bean id="SpellChecker" class="com.tutorialspoint.SpellChecker">
+   </bean>
+
+</beans>
+```
+
+## 注解
+
+在 XML 注入之前进行注解注入，因此后者的配置将通过两种方式的属性连线被前者重写。
+
+注解连线在默认情况下在 Spring 容器中不打开。因此，在可以使用基于注解的连线之前，我们将需要在我们的 Spring 配置文件中启用它。所以如果你想在 Spring 应用程序中使用的任何注解，可以考虑到下面的配置文件。
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+   <context:annotation-config/>
+   <!-- bean definitions go here -->
+
+</beans>
+```
+
+### @Required
+
+@Required 注释应用于 bean 属性的 setter 方法
+
+xml:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+   <context:annotation-config/>
+
+   <!-- Definition for student bean -->
+   <bean id="student" class="com.tutorialspoint.Student">
+      <property name="name"  value="Zara" />
+      <property name="age"  value="11"/>
+   </bean>
+
+</beans>
+```
+
+main:
+
+```java
+package com.tutorialspoint;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+public class MainApp {
+   public static void main(String[] args) {
+      ApplicationContext context = new ClassPathXmlApplicationContext("Beans.xml");
+      Student student = (Student) context.getBean("student");
+      System.out.println("Name : " + student.getName() );
+      System.out.println("Age : " + student.getAge() );
+   }
+}
+```
+
+Student.java
+
+```java
+package com.tutorialspoint;
+import org.springframework.beans.factory.annotation.Required;
+public class Student {
+   private Integer age;
+   private String name;
+   @Required
+   public void setAge(Integer age) {
+      this.age = age;
+   }
+   public Integer getAge() {
+      return age;
+   }
+   @Required
+   public void setName(String name) {
+      this.name = name;
+   }
+   public String getName() {
+      return name;
+   }
+}
+```
+
+### @Autowired 
+
+ Beans.xml
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+   <context:annotation-config/>
+
+   <!-- Definition for textEditor bean without constructor-arg  -->
+   <bean id="textEditor" class="com.tutorialspoint.TextEditor">
+   </bean>
+
+   <!-- Definition for spellChecker bean -->
+   <bean id="spellChecker" class="com.tutorialspoint.SpellChecker">
+   </bean>
+
+</beans>
+```
+
+#### @Autowired:Setter 方法
+
+```java
+package com.tutorialspoint;
+import org.springframework.beans.factory.annotation.Autowired;
+public class TextEditor {
+   private SpellChecker spellChecker;
+   @Autowired
+   public void setSpellChecker( SpellChecker spellChecker ){
+      this.spellChecker = spellChecker;
+   }
+   public SpellChecker getSpellChecker( ) {
+      return spellChecker;
+   }
+   public void spellCheck() {
+      spellChecker.checkSpelling();
+   }
+}
+```
+
+####  @Autowired:属性
+
+```java
+package com.tutorialspoint;
+import org.springframework.beans.factory.annotation.Autowired;
+public class TextEditor {
+   @Autowired
+   private SpellChecker spellChecker;
+   public TextEditor() {
+      System.out.println("Inside TextEditor constructor." );
+   }  
+   public SpellChecker getSpellChecker( ){
+      return spellChecker;
+   }  
+   public void spellCheck(){
+      spellChecker.checkSpelling();
+   }
+}
+```
+
+#### @Autowired:构造函数
+
+```java
+package com.tutorialspoint;
+import org.springframework.beans.factory.annotation.Autowired;
+public class TextEditor {
+   private SpellChecker spellChecker;
+   @Autowired
+   public TextEditor(SpellChecker spellChecker){
+      System.out.println("Inside TextEditor constructor." );
+      this.spellChecker = spellChecker;
+   }
+   public void spellCheck(){
+      spellChecker.checkSpelling();
+   }
+}
+```
+
+#### @Autowired （required=false）
+
+默认情况下，@Autowired 注释意味着依赖是必须的。
+
+可以使用 @Autowired 的 **（required=false）** 选项关闭默认行为。
+
+下面的代码不报错：
+
+```java
+package com.tutorialspoint;
+import org.springframework.beans.factory.annotation.Autowired;
+public class Student {
+   private Integer age;
+   private String name;
+   @Autowired(required=false)
+   public void setAge(Integer age) {
+      this.age = age;
+   }  
+   public Integer getAge() {
+      return age;
+   }
+   @Autowired
+   public void setName(String name) {
+      this.name = name;
+   }   
+   public String getName() {
+      return name;
+   }
+}
+```
+
+### @Qualifier
+
+用于区别
+
+Beans.xml
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+   <context:annotation-config/>
+
+   <!-- Definition for profile bean -->
+   <bean id="profile" class="com.tutorialspoint.Profile">
+   </bean>
+
+   <!-- Definition for student1 bean -->
+   <bean id="student1" class="com.tutorialspoint.Student">
+      <property name="name"  value="Zara" />
+      <property name="age"  value="11"/>
+   </bean>
+
+   <!-- Definition for student2 bean -->
+   <bean id="student2" class="com.tutorialspoint.Student">
+      <property name="name"  value="Nuha" />
+      <property name="age"  value="2"/>
+   </bean>
+
+</beans>
+```
+
+Profile.java
+
+```java
+package com.tutorialspoint;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+public class Profile {
+   @Autowired
+   @Qualifier("student1")
+   private Student student;
+   public Profile(){
+      System.out.println("Inside Profile constructor." );
+   }
+   public void printAge() {
+      System.out.println("Age : " + student.getAge() );
+   }
+   public void printName() {
+      System.out.println("Name : " + student.getName() );
+   }
+}
+```
+
+### @PostConstruct 和 @PreDestroy
+
+可以使用 **@PostConstruct** 注释作为初始化回调函数的一个替代，**@PreDestroy** 注释作为销毁回调函数的一个替代
+
+为了定义一个 bean 的安装和卸载，我们使用 **init-method** 和/或 **destroy-method** 参数简单的声明一下 。init-method 属性指定了一个方法，该方法在 bean 的实例化阶段会立即被调用。同样地，destroy-method 指定了一个方法，该方法只在一个 bean 从容器中删除之前被调用。
+
+xml:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+   <context:annotation-config/>
+
+   <bean id="helloWorld" 
+       class="com.tutorialspoint.HelloWorld"
+       init-method="init" destroy-method="destroy">
+       <property name="message" value="Hello World!"/>
+   </bean>
+
+</beans>
+```
+
+main:
+
+```java
+package com.tutorialspoint;
+import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+public class MainApp {
+   public static void main(String[] args) {
+      AbstractApplicationContext context = 
+                          new ClassPathXmlApplicationContext("Beans.xml");
+      HelloWorld obj = (HelloWorld) context.getBean("helloWorld");
+      obj.getMessage();
+      context.registerShutdownHook();
+   }
+}
+```
+
+HelloWorld.java
+
+```java
+package com.tutorialspoint;
+import javax.annotation.*;
+public class HelloWorld {
+   private String message;
+   public void setMessage(String message){
+      this.message  = message;
+   }
+   public String getMessage(){
+      System.out.println("Your Message : " + message);
+      return message;
+   }
+   @PostConstruct
+   public void init(){
+      System.out.println("Bean is going through init.");
+   }
+   @PreDestroy
+   public void destroy(){
+      System.out.println("Bean will destroy now.");
+   }
+}
+```
+
+result:
+
+```
+Bean is going through init.
+Your Message : Hello World!
+Bean will destroy now.
+```
+
+### @Resource
+
+@Resource 注释使用一个 ‘name’ 属性，该属性以一个 bean 名称的形式被注入。你可以说，它遵循 **by-name** 自动连接语义。
+
+如下面的示例所示：
+
+```java
+package com.tutorialspoint;
+import javax.annotation.Resource;
+public class TextEditor {
+   private SpellChecker spellChecker;
+   @Resource(name= "spellChecker")
+   public void setSpellChecker( SpellChecker spellChecker ){
+      this.spellChecker = spellChecker;
+   }
+   public SpellChecker getSpellChecker(){
+      return spellChecker;
+   }
+   public void spellCheck(){
+      spellChecker.checkSpelling();
+   }
+}
+```
+
+## 基于 Java 的配置
+
+在这里，带有 @Bean 注解的方法名称作为 bean 的 ID，它创建并返回实际的 bean。你的配置类可以声明多个 @Bean。一旦定义了配置类，你就可以使用 *AnnotationConfigApplicationContext* 来加载并把他们提供给 Spring 容器
+
+### @Configuration 和 @Bean
+
+```java
+package com.tutorialspoint;
+import org.springframework.context.annotation.*;
+@Configuration
+public class HelloWorldConfig {
+   @Bean 
+   public HelloWorld helloWorld(){
+      return new HelloWorld();
+   }
+}
+```
+
+等同于：
+
+```xml
+<beans>
+   <bean id="helloWorld" class="com.tutorialspoint.HelloWorld" />
+</beans>
+```
+
+```java
+public static void main(String[] args) {
+   ApplicationContext ctx = 
+   new AnnotationConfigApplicationContext(HelloWorldConfig.class); 
+   HelloWorld helloWorld = ctx.getBean(HelloWorld.class);
+   helloWorld.setMessage("Hello World!");
+   helloWorld.getMessage();
+}
+```
+
+### @Component
+
+@Component被用在要被自动扫描和装配的类上。
+
+@Bean主要被用在方法上，来显式声明要用生成的类。
+
+现在项目上，本工程中的类，一般都使用@Component来生成bean。
+
+使用@Component时，立马返回一个原始的对象，该对象就是简单的Java对象。
+
+### @Import 注解
+
+main:
+
+```java
+public static void main(String[] args) {
+   ApplicationContext ctx = 
+   new AnnotationConfigApplicationContext(ConfigB.class);
+   // now both beans A and B will be available...
+   A a = ctx.getBean(A.class);
+   B b = ctx.getBean(B.class);
+}
+```
+
+ConfigA:
+
+```java
+@Configuration
+public class ConfigA {
+   @Bean
+   public A a() {
+      return new A(); 
+   }
+}
+```
+
+ConfigB:
+
+```java
+@Configuration
+@Import(ConfigA.class)
+public class ConfigB {
+   @Bean
+   public B a() {
+      return new A(); 
+   }
+}
+```
+
+## 生命周期回调
+
+```java
+public class Foo {
+   public void init() {
+      // initialization logic
+   }
+   public void cleanup() {
+      // destruction logic
+   }
+}
+
+@Configuration
+public class AppConfig {
+   @Bean(initMethod = "init", destroyMethod = "cleanup" )
+   public Foo foo() {
+      return new Foo();
+   }
+}
+```
+
+```java
+@Configuration
+public class AppConfig {
+   @Bean
+   @Scope("prototype")
+   public Foo foo() {
+      return new Foo();
+   }
+}
+```
+
+## Spring 中的事件处理
+
+Spring 的核心是 ApplicationContext，它负责管理 beans 的完整生命周期。
+
+### 监听上下文事件
+
+为了监听上下文事件，一个 bean 应该实现只有一个方法 onApplicationEvent() 的 ApplicationListener 接口。
+
+ Beans.xml 
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+   <bean id="helloWorld" class="com.tutorialspoint.HelloWorld">
+      <property name="message" value="Hello World!"/>
+   </bean>
+
+   <bean id="cStartEventHandler" 
+         class="com.tutorialspoint.CStartEventHandler"/>
+
+   <bean id="cStopEventHandler" 
+         class="com.tutorialspoint.CStopEventHandler"/>
+
+</beans>
+```
+
+MainApp.java 
+
+```java
+package com.tutorialspoint;
+
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class MainApp {
+   public static void main(String[] args) {
+      ConfigurableApplicationContext context = 
+      new ClassPathXmlApplicationContext("Beans.xml");
+
+      // Let us raise a start event.
+      context.start();
+
+      HelloWorld obj = (HelloWorld) context.getBean("helloWorld");
+
+      obj.getMessage();
+
+      // Let us raise a stop event.
+      context.stop();
+   }
+}
+```
+
+HelloWorld.java 
+
+```java
+package com.tutorialspoint;
+public class HelloWorld {
+   private String message;
+   public void setMessage(String message){
+      this.message  = message;
+   }
+   public void getMessage(){
+      System.out.println("Your Message : " + message);
+   }
+}
+```
+
+CStartEventHandler.java
+
+```java
+package com.tutorialspoint;
+import org.springframework.context.ApplicationListener;
+import org.springframework.context.event.ContextStartedEvent;
+public class CStartEventHandler 
+   implements ApplicationListener<ContextStartedEvent>{
+   public void onApplicationEvent(ContextStartedEvent event) {
+      System.out.println("ContextStartedEvent Received");
+   }
+}
+```
+
+CStopEventHandler.java
+
+```java
+package com.tutorialspoint;
+import org.springframework.context.ApplicationListener;
+import org.springframework.context.event.ContextStoppedEvent;
+public class CStopEventHandler 
+   implements ApplicationListener<ContextStoppedEvent>{
+   public void onApplicationEvent(ContextStoppedEvent event) {
+      System.out.println("ContextStoppedEvent Received");
+   }
+}
+```
+
+result:
+
+```
+ContextStartedEvent Received
+Your Message : Hello World!
+ContextStoppedEvent Received
+```
+
+## Spring MVC 框架
+
+MVC 模式导致了应用程序的不同方面(输入逻辑、业务逻辑和 UI 逻辑)的分离，同时提供了在这些元素之间的松散耦合。
+
+- **模型**封装了应用程序数据，并且通常它们由 POJO 组成。
+- **视图**主要用于呈现模型数据，并且通常它生成客户端的浏览器可以解释的 HTML 输出。
+- **控制器**主要用于处理用户请求，并且构建合适的模型并将其传递到视图呈现。
+
+![img](http://wiki.jikexueyuan.com/project/spring/images/mvc1.png)
+
+事件序列：
+
+- 收到一个 HTTP 请求后，*DispatcherServlet* 根据 *HandlerMapping* 来选择并且调用适当的*控制器*。
+- *控制器*接受请求，并基于使用的 GET 或 POST 方法来调用适当的 service 方法。Service 方法将设置基于定义的业务逻辑的模型数据，并返回视图名称到 *DispatcherServlet* 中。
+- *DispatcherServlet* 会从 *ViewResolver* 获取帮助，为请求检取定义视图。
+- 一旦确定视图，*DispatcherServlet* 将把模型数据传递给视图，最后呈现在浏览器中。
+
+## 使用 Log4J 记录日志
+
+xml:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+   <bean id="helloWorld" class="com.tutorialspoint.HelloWorld">
+       <property name="message" value="Hello World!"/>
+   </bean>
+
+</beans>
+```
+
+MainApp.java
+
+```java
+package com.tutorialspoint;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.apache.log4j.Logger;
+public class MainApp {
+   static Logger log = Logger.getLogger(MainApp.class.getName());
+   public static void main(String[] args) {
+      ApplicationContext context = 
+             new ClassPathXmlApplicationContext("Beans.xml");
+      log.info("Going to create HelloWord Obj");
+      HelloWorld obj = (HelloWorld) context.getBean("helloWorld");
+      obj.getMessage();
+      log.info("Exiting the program");
+   }
+}
+```
+
+HelloWorld.java
+
+```java
+package com.tutorialspoint;
+public class HelloWorld {
+   private String message;
+   public void setMessage(String message){
+      this.message  = message;
+   }
+   public void getMessage(){
+      System.out.println("Your Message : " + message);
+   }
+}
+```
 
